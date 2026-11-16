@@ -8,6 +8,7 @@ import * as WEBIFC from 'web-ifc';
 
 const WEBIFC_VERSION = '0.0.74';
 const DEFAULT_MODEL = 'models/' + ((window.RS_QUERIES && window.RS_QUERIES.model) || 'plant_MODEL.ifc');   // per case (queries-<case>.js)
+const PREVIEW = !!(window.RS_QUERIES && window.RS_QUERIES.preview);      // preview case: the model and the queries only - no weights, lengths, BOM or downloads
 const STATUS = {
   CONFIRMED:   { label: 'Confirmed',   color: '#4d8cd9' },
   ASSUMED:     { label: 'Assumed',     color: '#e8891c' },
@@ -256,7 +257,7 @@ function renderLegend() {
   const lg = $('legend');
   if (M.colourMode !== 'status') { lg.classList.remove('show'); return; }
   const t = totals([...M.el.keys()]);
-  const rows = Object.entries(STATUS).map(([k, s]) => `<div><span class="sw" style="background:${s.color}"></span>${s.label}: ${fmtN(t.by[k].n)} · ${fmtT(t.by[k].kg)}</div>`);
+  const rows = Object.entries(STATUS).map(([k, s]) => `<div><span class="sw" style="background:${s.color}"></span>${s.label}: ${fmtN(t.by[k].n)}${PREVIEW ? '' : ' · ' + fmtT(t.by[k].kg)}</div>`);
   if (t.none.n) rows.push(`<div><span class="sw" style="background:${NO_STATUS.color}"></span>${NO_STATUS.label}: ${fmtN(t.none.n)}</div>`);
   lg.innerHTML = rows.join(''); lg.classList.add('show');
 }
@@ -379,8 +380,8 @@ function renderQueries() {
   p.innerHTML = `<h3>Engineer queries (${M.queries.length})</h3><div class="muted">${intro}</div><ul class="qlist">` + M.queries.map((q, k) => {
     const t = totals(q.els);
     return `<li data-k="${k}" class="${M.activeQuery === k ? 'on' : ''}"><div class="qh"><span class="qid">${esc(q.id)}</span><span class="qt">${esc(q.title)}</span></div>
-      <div class="qmeta">${[q.type, q.status, q.sheet ? 'Sheet ' + q.sheet : ''].filter(Boolean).map(esc).join(' · ')}${q.type || q.status || q.sheet ? ' · ' : ''}${fmtN(q.els.length)} members · ${fmtT(t.kg)}</div>
-      <div class="qd">${esc(q.description)}${q.description ? '<br><br>' : ''}<b>${fmtN(q.els.length)} members, ${fmtT(t.kg)}</b> — ${statusSplit(t)}</div></li>`;
+      <div class="qmeta">${[q.type, q.status, q.sheet ? 'Sheet ' + q.sheet : ''].filter(Boolean).map(esc).join(' · ')}${q.type || q.status || q.sheet ? ' · ' : ''}${fmtN(q.els.length)} members${PREVIEW ? '' : ' · ' + fmtT(t.kg)}</div>
+      <div class="qd">${esc(q.description)}${q.description ? '<br><br>' : ''}<b>${fmtN(q.els.length)} members${PREVIEW ? '' : ', ' + fmtT(t.kg)}</b>${PREVIEW ? '' : ' — ' + statusSplit(t)}</div></li>`;
   }).join('') + '</ul>';
   p.querySelectorAll('li').forEach((li) => li.addEventListener('click', () => {
     selectQuery(+li.dataset.k);
@@ -448,8 +449,8 @@ function renderElement() {
   if (M.selection.size > 1 || M.selSource === 'query') {
     const t = totals(M.selection);
     const head = M.selSource === 'query' && M.activeQuery != null ? `Query ${esc(M.queries[M.activeQuery].id)}: ${esc(M.queries[M.activeQuery].title)}` : `${fmtN(M.selection.size)} members selected`;
-    const list = [...M.selection].slice(0, 200).map((i) => { const r = M.rs[i]; return `<tr><td>${esc(r ? r.PlanId : '#' + M.el[i].eid)}</td><td>${esc(r ? r.Mark : '')} ${esc(r ? r.Status : '')} · ${r && isFinite(parseFloat(r.Weight_kg)) ? fmtN(Math.round(parseFloat(r.Weight_kg))) + ' kg' : ''}</td></tr>`; }).join('');
-    p.innerHTML = `<h3>${head}</h3><div class="big">${fmtT(t.kg)}</div><div class="muted">${fmtKg(t.kg)}</div><div class="muted">${statusSplit(t)}</div>
+    const list = [...M.selection].slice(0, 200).map((i) => { const r = M.rs[i]; return `<tr><td>${esc(r ? r.PlanId : '#' + M.el[i].eid)}</td><td>${esc(r ? r.Mark : '')} ${esc(r ? r.Status : '')} · ${!PREVIEW && r && isFinite(parseFloat(r.Weight_kg)) ? fmtN(Math.round(parseFloat(r.Weight_kg))) + ' kg' : ''}</td></tr>`; }).join('');
+    p.innerHTML = `<h3>${head}</h3>` + (PREVIEW ? '' : `<div class="big">${fmtT(t.kg)}</div><div class="muted">${fmtKg(t.kg)}</div><div class="muted">${statusSplit(t)}</div>`) + `
       <div class="sect">Members${M.selection.size > 200 ? ' (first 200)' : ''}</div><table class="kv">${list}</table>`;
     return;
   }
@@ -468,13 +469,13 @@ function renderElement() {
       row('Sheet', esc(r.Sheet)) + row('Reference', esc(r.Reference)) + row('Basis', esc(r.Basis)) +
       row('Query', qid ? (qk >= 0 ? `<button class="link" data-q="${qk}">${esc(qid)}</button>` : esc(qid)) : '') +
       row('Note', esc(r.Note)) + row('Revision', esc(r.Revision)) +
-      row('Weight', isFinite(w) ? `${w.toLocaleString('en-AU', { maximumFractionDigits: 2 })} kg` : '') +
+      (PREVIEW ? '' : row('Weight', isFinite(w) ? `${w.toLocaleString('en-AU', { maximumFractionDigits: 2 })} kg` : '')) +
       row('Plan id', esc(r.PlanId)) + (r.Batch ? row('Batch', esc(r.Batch)) : '') + '</table>';
     const L = parseFloat(r.Length_mm), zb = parseFloat(r.Bottom_Z_mm), zt = parseFloat(r.Top_Z_mm);
     const zfmt = (z, rl) => `${z >= 0 ? '+' : '−'}${Math.abs(Math.round(z)).toLocaleString('en-AU')} mm` + (rl ? ` <span class="muted">(${esc(rl)})</span>` : '');
     if (isFinite(L) || isFinite(zb) || isFinite(zt)) {
       html += `<div class="sect">Geometry</div><table class="kv">` +
-        row('Length', isFinite(L) ? `${Math.round(L).toLocaleString('en-AU')} mm` : '') +
+        (PREVIEW ? '' : row('Length', isFinite(L) ? `${Math.round(L).toLocaleString('en-AU')} mm` : '')) +
         row('Bottom of steel', isFinite(zb) ? zfmt(zb, r.Bottom_RL) : '') +
         row('Top of steel', isFinite(zt) ? zfmt(zt, r.Top_RL) : '') + '</table>';
     }
@@ -506,6 +507,10 @@ function renderBom() {
   $('bBomWide').addEventListener('click', () => { const w = document.querySelector('main').classList.toggle('wide'); $('bBomWide').textContent = w ? 'Narrower table' : 'Wider table'; window.dispatchEvent(new Event('resize')); });
 }
 renderBom();
+if (PREVIEW) {      // hide the quantity tabs and the downloads
+  document.querySelectorAll('.tabs button[data-t="pTonnage"], .tabs button[data-t="pIfc"], .tabs button[data-t="pBom"]').forEach((b) => { b.style.display = 'none'; });
+  const fn = document.getElementById('footNote'); if (fn) fn.textContent = 'Preview: 3D model and engineer queries. Quantities, weights and the bill of materials are released with the take-off.';
+}
 // ---------- IFC tab: the model file itself, to download and open in any IFC viewer ----------
 $('pIfc').innerHTML = `<h3>3D model (IFC)</h3><div class="muted">The model shown here, as an IFC4 file. It opens in any IFC viewer or in Tekla, Revit, Navisworks and Trimble Connect. ` +
   `Every member carries its drawing sheet, status, weight, length and levels.</div>` +

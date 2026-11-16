@@ -74,7 +74,7 @@ window.RS_QUERIES = {
    "status": "Open",
    "sheet": "S0.002 note 36",
    "title": "Bridging",
-   "description": "General note 36 requires a minimum of 1 row of bridging; no bridging line is drawn on the roof framing plan. Priced with 1 row per bay at mid span (13.0 m).",
+   "description": "General note 36 requires a minimum of 1 row of bridging; no bridging line is drawn on the roof framing plan. Priced with 1 row per bay at mid span.",
    "elements": [
     "^BRG-"
    ]
@@ -122,5 +122,6 @@ window.RS_QUERIES = {
     "^HR-"
    ]
   }
- ]
+ ],
+ "preview": true
 };
