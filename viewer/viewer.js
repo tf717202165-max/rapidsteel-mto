@@ -470,7 +470,6 @@ function renderElement() {
       row('Note', esc(r.Note)) + row('Revision', esc(r.Revision)) +
       row('Weight', isFinite(w) ? `${w.toLocaleString('en-AU', { maximumFractionDigits: 2 })} kg` : '') +
       row('Plan id', esc(r.PlanId)) + (r.Batch ? row('Batch', esc(r.Batch)) : '') + '</table>';
-    // length and bottom / top level of the member
     const L = parseFloat(r.Length_mm), zb = parseFloat(r.Bottom_Z_mm), zt = parseFloat(r.Top_Z_mm);
     const zfmt = (z, rl) => `${z >= 0 ? '+' : '−'}${Math.abs(Math.round(z)).toLocaleString('en-AU')} mm` + (rl ? ` <span class="muted">(${esc(rl)})</span>` : '');
     if (isFinite(L) || isFinite(zb) || isFinite(zt)) {
@@ -490,6 +489,27 @@ function renderElement() {
   p.innerHTML = html;
   p.querySelectorAll('[data-q]').forEach((b) => b.addEventListener('click', () => { selectQuery(+b.dataset.q); showTab('pQueries'); }));
 }
+
+// ---------- BOM tab: the delivered bill of materials (bom-<case>.js = the workbook rows + the file to download) ----------
+function renderBom() {
+  const B = window.RS_BOM; if (!B || !B.rows) return;
+  $('tabBom').style.display = '';
+  const num = (v) => (Number.isInteger(v) ? v.toLocaleString('en-AU') : v.toLocaleString('en-AU', { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
+  let h = `<h3>${esc(B.title)}</h3><div class="muted">${esc(B.subtitle || '')}</div>` +
+    `<p style="margin:12px 0 4px"><a class="btn primary" href="${esc(B.file)}" download>Download the Excel workbook</a> <button class="btn" id="bBomWide">Wider table</button></p>` +
+    '<div class="bomwrap"><table class="bomt">';
+  for (const r of B.rows) {
+    if (r.k === 'sec' || r.k === 'txt') { h += `<tr class="${r.k}"><td colspan="${B.cols}">${esc(r.c[0])}</td></tr>`; continue; }
+    h += `<tr class="${r.k || ''}">` + r.c.map((v, i) => (typeof v === 'number' ? `<td class="n">${num(v)}</td>` : `<td>${esc(v)}</td>`)).join('') + '</tr>';
+  }
+  $('pBom').innerHTML = h + '</table></div>';
+  $('bBomWide').addEventListener('click', () => { const w = document.querySelector('main').classList.toggle('wide'); $('bBomWide').textContent = w ? 'Narrower table' : 'Wider table'; window.dispatchEvent(new Event('resize')); });
+}
+renderBom();
+// ---------- IFC tab: the model file itself, to download and open in any IFC viewer ----------
+$('pIfc').innerHTML = `<h3>3D model (IFC)</h3><div class="muted">The model shown here, as an IFC4 file. It opens in any IFC viewer or in Tekla, Revit, Navisworks and Trimble Connect. ` +
+  `Every member carries its drawing sheet, status, weight, length and levels.</div>` +
+  `<p style="margin:14px 0 4px"><a class="btn primary" href="${esc(DEFAULT_MODEL)}" download>Download the IFC model</a></p><div class="muted">${esc(DEFAULT_MODEL.split('/').pop())}</div>`;
 
 // ---------- UI wiring ----------
 function showTab(id) {
