@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RapidSteel MTO — Structural steel tender take-offs</title>
+<meta name="description" content="Structural steel take-offs for Australian fabricators: bill of materials, 3D model and query list from your tender drawings, checked by an experienced estimator.">
+<style>
+:root{--navy:#16324f;--ink:#1c2733;--mute:#5b6b7a;--line:#d9dfe5;--bg:#f5f7f9;--amber:#e8891c;--blue:#4d8cd9;--grey:#999}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.55}
+a{color:inherit}.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);z-index:5}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{font-weight:700;font-size:20px;color:var(--navy);letter-spacing:.3px;text-decoration:none}.brand span{color:var(--amber)}
+nav a{margin-left:22px;font-size:14px;text-decoration:none;color:var(--mute)}nav a:hover{color:var(--navy)}
+.btn{display:inline-block;background:var(--amber);color:#fff;font-weight:600;padding:12px 22px;border-radius:6px;text-decoration:none;border:0;font-size:15px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--navy);border:1.5px solid var(--navy)}
+.hero{background:linear-gradient(180deg,#fff 0,var(--bg) 100%);padding:64px 0 56px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+h1{font-size:40px;line-height:1.15;margin:0 0 16px;color:var(--navy)}
+.lead{font-size:18px;color:#3a4856;margin:0 0 24px;max-width:34em}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 6px 24px rgba(22,50,79,.08);overflow:hidden}
+.card h4{margin:0;padding:10px 14px;background:var(--navy);color:#fff;font-size:13px;font-weight:600;letter-spacing:.4px}
+.props{width:100%;border-collapse:collapse;font-size:13.5px}.props td{padding:7px 14px;border-bottom:1px solid #edf0f3;vertical-align:top}
+.props td:first-child{color:var(--mute);width:34%}.pill{display:inline-block;padding:1px 9px;border-radius:10px;color:#fff;font-size:12px;font-weight:600}
+.caption{font-size:12.5px;color:var(--mute);padding:9px 14px}
+section{padding:60px 0}section.alt{background:var(--bg)}
+h2{font-size:28px;margin:0 0 8px;color:var(--navy)}.sub{color:var(--mute);margin:0 0 30px;max-width:44em}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.box{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px}.box h3{margin:0 0 6px;font-size:17px;color:var(--navy)}.box p{margin:0;color:#3a4856;font-size:15px}
+.num{display:inline-flex;width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;align-items:center;justify-content:center;font-weight:700;margin-bottom:10px}
+.stat b{display:block;font-size:30px;color:var(--navy)}.stat span{color:var(--mute);font-size:14px}
+.bar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:14px 0 8px}.legend{font-size:13px;color:var(--mute)}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 5px 0 12px}
+table.bom{width:100%;border-collapse:collapse;font-size:13.5px}table.bom th{background:#eef2f5;text-align:left}table.bom th,table.bom td{padding:7px 10px;border-bottom:1px solid #e6eaee}
+table.bom td.n,table.bom th.n{text-align:right;white-space:nowrap}
+form{display:grid;grid-template-columns:1fr 1fr;gap:14px}form label{font-size:13px;color:var(--mute);display:block;margin-bottom:4px}
+input,textarea,select{width:100%;padding:11px;border:1px solid #c5ced6;border-radius:6px;font:inherit}textarea{min-height:96px}.full{grid-column:1/-1}
+footer{background:var(--navy);color:#c9d4de;padding:28px 0;font-size:13.5px}footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.note{font-size:12.5px;color:var(--mute);margin-top:10px}
+@media(max-width:820px){.hero .wrap,.grid3,.grid2,form{grid-template-columns:1fr}h1{font-size:31px}nav{display:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="brand" href="#top">Rapid<span>Steel</span> MTO</a>
+  <nav><a href="#what">What you get</a><a href="#how">How it works</a><a href="#work">Recent work</a><a href="#detailed">Detailed model</a><a href="viewer/index.html">Sample model</a><a href="#pricing">Pricing</a><a href="#quote">Get a quote</a></nav>
+</div></header>
+
+<div class="hero" id="top"><div class="wrap">
+  <div>
+    <h1>Structural steel take-offs for your next tender — back in 24 to 48 hours.</h1>
+    <p class="lead">Send the tender drawings. You get a bill of materials, a 3D model you can open and check, and a list of every assumption and drawing query — taken off to Australian sections and checked by an experienced steel estimator.</p>
+    <div class="cta"><a class="btn" href="#quote">Send drawings for a quote</a><a class="btn ghost" href="viewer/index.html">Open a sample model</a></div>
+  </div>
+  <div class="card" aria-label="Example of the source data on one member">
+    <h4>CLICK ANY MEMBER IN THE MODEL</h4>
+    <table class="props">
+      <tr><td>Mark</td><td>R-WC40d &nbsp; 400WC270</td></tr>
+      <tr><td>Drawing</td><td>ST-04.12, Section B5</td></tr>
+      <tr><td>Status</td><td><span class="pill" style="background:var(--blue)">Confirmed</span></td></tr>
+      <tr><td>Basis</td><td>Section label; level measured from the section</td></tr>
+      <tr><td>Query</td><td>—</td></tr>
+      <tr><td>Weight</td><td>2,992 kg</td></tr>
+    </table>
+    <div class="caption">Every member carries its drawing number, where it is shown, and whether it is confirmed, assumed or a tender allowance.</div>
+  </div>
+</div></div>
+
+<section id="what"><div class="wrap">
+  <h2>What you get</h2>
+  <p class="sub">A pack you can price from and defend — not just a spreadsheet of lengths.</p>
+  <div class="grid3">
+    <div class="box"><h3>Bill of materials</h3><p>Hot-rolled steel by section, plates by thickness, purlins and girts by length, bridging, holding-down bolt sets and a hardware list. Fitting allowance shown separately.</p></div>
+    <div class="box"><h3>3D model (IFC)</h3><p>Open it in your browser or any free IFC viewer. Click a member to see its drawing reference and status; colour the model by status; pick a query to see the members it affects; select members to add up their weight. <a href="viewer/index.html">Try the sample</a>.</p></div>
+    <div class="box"><h3>Assumptions &amp; queries</h3><p>Every place the drawings are unclear or conflict is listed with the sheet number and what was allowed — ready to use as your tender clarifications.</p></div>
+  </div>
+</div></section>
+
+<section class="alt" id="how"><div class="wrap">
+  <h2>How it works</h2>
+  <p class="sub">The steel is modelled member by member from the structural and architectural drawings, then checked twice before it reaches you.</p>
+  <div class="grid3">
+    <div class="box"><div class="num">1</div><h3>Send the drawings</h3><p>Structural and architectural PDFs. You receive a fixed price and a delivery time the same day.</p></div>
+    <div class="box"><div class="num">2</div><h3>Modelled and checked</h3><p>The frame, secondary steel and connections are modelled in Tekla Structures, then put through an independent review against the drawings and automatic checks for double counts and gaps.</p></div>
+    <div class="box"><div class="num">3</div><h3>Reviewed and issued</h3><p>An estimator with Australian steel estimating and detailing experience reviews the result and signs it off. Revisions for drawing updates are tracked issue by issue.</p></div>
+  </div>
+</div></section>
+
+<section id="work"><div class="wrap">
+  <h2>Recent work</h2>
+  <p class="sub">Two recent tender take-offs. Open either model in the browser: click a member for its drawing reference, status, length and levels.</p>
+  <div class="grid2">
+    <div class="box">
+      <h3>Industrial plant, Western Australia</h3>
+      <p>High-bay workshop with trusses, laced columns, crane runway, monorail support steel, maintenance walkway and a pre-treatment building. 76 drawing sheets.</p>
+      <div class="grid3" style="margin-top:16px"><div class="stat"><b>621 t</b><span>steel</span></div><div class="stat"><b>11,825</b><span>parts modelled</span></div><div class="stat"><b>10</b><span>queries raised</span></div></div>
+      <div class="bar"><div style="width:83%;background:var(--blue)"></div><div style="width:15%;background:#f2991a"></div><div style="width:2%;background:var(--grey)"></div></div>
+      <div class="legend"><span class="dot" style="background:var(--blue);margin-left:0"></span>Confirmed 83%<span class="dot" style="background:#f2991a"></span>Assumed 15%<span class="dot" style="background:var(--grey)"></span>Provisional 2% (by weight)</div>
+      <p style="margin-top:12px"><a class="btn ghost" href="viewer/index.html">Open this model</a></p>
+    </div>
+    <div class="box">
+      <h3>Warehouse and office, Victoria</h3>
+      <p>136 m portal-frame warehouse with canopies, two-storey office, dock office and stairs. Detailed model: main connections from the engineer's standard details, every purlin cleat on its web.</p>
+      <div class="grid3" style="margin-top:16px"><div class="stat"><b>248 t</b><span>steel</span></div><div class="stat"><b>11.3 km</b><span>purlins &amp; girts</span></div><div class="stat"><b>70</b><span>H.D. bolt sets</span></div></div>
+      <table class="bom" style="margin-top:14px">
+        <tr><th>Section</th><th class="n">Length</th><th class="n">Weight</th></tr>
+        <tr><td>Hot-rolled steel + plates</td><td class="n">—</td><td class="n">171.6 t</td></tr>
+        <tr><td>Purlins / girts</td><td class="n">11,333 m</td><td class="n">76.5 t</td></tr>
+        <tr><td>Bridging</td><td class="n">3,302 m</td><td class="n">by length</td></tr>
+      </table>
+      <p style="margin-top:12px"><a class="btn ghost" href="viewer/index.html?case=warehouse">Open this model</a></p>
+    </div>
+  </div>
+</div></section>
+
+<section class="alt" id="detailed"><div class="wrap">
+  <h2>Detailed tender model</h2>
+  <p class="sub">An option for jobs where the model is shown to the client or carried into detailing: main members are cut to the faces they land on, and the main connections are modelled from the engineer's standard details instead of a weight allowance.</p>
+  <div class="grid2">
+    <div class="box" style="padding:0;overflow:hidden"><img src="img/all-grid9-eave-C.jpg" alt="Eave connection: rafter end plate on the column with stiffeners and a diagonal stiffener" style="width:100%;display:block"><div class="caption">Eave: end plate, column stiffeners and diagonal stiffener at the thicknesses on the connection details.</div></div>
+    <div class="box" style="padding:0;overflow:hidden"><img src="img/grid5-truss-E.jpg" alt="Truss chords with splice end plates and webs cut to the chord faces" style="width:100%;display:block"><div class="caption">Truss: chord splices and webs cut to the chord faces, chord ends plated to the column.</div></div>
+  </div>
+  <div class="grid3" style="margin-top:22px">
+    <div class="box stat"><b>3,016 &rarr; 327</b><span>clashes between main members (Tekla clash check), industrial plant above</span></div>
+    <div class="box stat"><b>1,310</b><span>connection plates placed as detailed: web side plates, end plates, stiffeners, doublers, splices, cap plates</span></div>
+    <div class="box stat"><b>129</b><span>base plates sized to the engineer's baseplate schedule</span></div>
+  </div>
+  <p class="note">The clashes that remain are listed and explained: most are one drawing conflict raised as a query with the engineer. Plate thicknesses follow the drawings; plate sizes the drawings do not give are marked as assumed on every plate.</p>
+</div></section>
+
+<section id="pricing"><div class="wrap">
+  <h2>Pricing</h2>
+  <p class="sub">Fixed price per job, agreed before work starts. Price depends on tonnage and how complete the drawings are.</p>
+  <div class="grid3">
+    <div class="box"><h3>Small</h3><p>Up to about 50 t — sheds, canopies, small warehouses.</p><p style="margin-top:10px"><b>[price to be set]</b></p></div>
+    <div class="box"><h3>Medium</h3><p>About 50 to 200 t — warehouses with offices, multi-bay industrial buildings.</p><p style="margin-top:10px"><b>[price to be set]</b></p></div>
+    <div class="box"><h3>Large</h3><p>Over 200 t — heavy industrial, crane buildings, multi-building sites.</p><p style="margin-top:10px"><b>Quoted per job</b></p></div>
+  </div>
+  <p class="note">Detailed tender model (connections modelled, clash-checked): <b>[price to be set]</b> on top of the take-off.</p>
+  <p class="note">Quantities are for tender pricing only and are not for fabrication or procurement. Assumptions and open queries are listed with every issue.</p>
+</div></section>
+
+<section id="quote"><div class="wrap">
+  <h2>Get a quote</h2>
+  <p class="sub">Tell us about the job and send the drawings. You will hear back the same business day.</p>
+  <form action="#" method="post" onsubmit="alert('This form is not connected yet.');return false;">
+    <div><label for="n">Name</label><input id="n" name="name" required></div>
+    <div><label for="c">Company</label><input id="c" name="company"></div>
+    <div><label for="e">Email</label><input id="e" name="email" type="email" required></div>
+    <div><label for="p">Phone</label><input id="p" name="phone"></div>
+    <div><label for="d">Tender closing date</label><input id="d" name="closing" type="date"></div>
+    <div><label for="t">Approximate size</label><select id="t" name="size"><option>Not sure</option><option>Up to 50 t</option><option>50 to 200 t</option><option>Over 200 t</option></select></div>
+    <div class="full"><label for="m">Project and drawings (a download link is fine)</label><textarea id="m" name="message"></textarea></div>
+    <div class="full"><button class="btn" type="submit">Request a quote</button></div>
+  </form>
+  <p class="note">Or email <b>[email to be added]</b> &nbsp;|&nbsp; <b>[phone to be added]</b></p>
+</div></section>
+
+<footer><div class="wrap">
+  <div><b style="color:#fff">RapidSteel MTO</b><br>Structural steel tender take-offs · Australia</div>
+  <div>ABN [to be added]<br>© 2026 RapidSteel MTO</div>
+</div></footer>
+</body>
+</html>
