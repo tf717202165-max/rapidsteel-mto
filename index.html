@@ -160,8 +160,8 @@ footer{background:var(--navy);color:#c9d4de;padding:28px 0;font-size:13.5px}foot
 
 <section id="quote"><div class="wrap">
   <h2>Get a quote</h2>
-  <p class="sub">Tell us about the job and send the drawings. You will hear back the same business day.</p>
-  <form action="#" method="post" onsubmit="alert('This form is not connected yet.');return false;">
+  <p class="sub">Tell us about the job and send the drawings. The button opens an email in your own mail program with these details filled in: attach the drawings (or paste a download link) and send.</p>
+  <form action="#" method="post" onsubmit="return rsQuote(this)">
     <div><label for="n">Name</label><input id="n" name="name" required></div>
     <div><label for="c">Company</label><input id="c" name="company"></div>
     <div><label for="e">Email</label><input id="e" name="email" type="email" required></div>
@@ -169,9 +169,28 @@ footer{background:var(--navy);color:#c9d4de;padding:28px 0;font-size:13.5px}foot
     <div><label for="d">Tender closing date</label><input id="d" name="closing" type="date"></div>
     <div><label for="t">Approximate size</label><select id="t" name="size"><option>Not sure</option><option>Up to 50 t</option><option>50 to 200 t</option><option>Over 200 t</option></select></div>
     <div class="full"><label for="m">Project and drawings (a download link is fine)</label><textarea id="m" name="message"></textarea></div>
-    <div class="full"><button class="btn" type="submit">Request a quote</button></div>
+    <div class="full"><button class="btn" type="submit">Open email to request a quote</button></div>
   </form>
-  <p class="note">Or email <b>[email to be added]</b> &nbsp;|&nbsp; <b>[phone to be added]</b></p>
+  <p class="note">Or email the drawings straight to <a href="mailto:tf717202165@gmail.com?subject=Steel%20take-off%20quote%20request"><b>tf717202165@gmail.com</b></a></p>
+<script>
+function rsQuote(f) {
+  var v = function (n) { return (f.elements[n].value || '').trim(); };
+  var body = 'Name: ' + v('name') + '
+Company: ' + v('company') + '
+Email: ' + v('email') + '
+Phone: ' + v('phone') +
+    '
+Tender closing date: ' + v('closing') + '
+Approximate size: ' + v('size') + '
+
+Project and drawings:
+' + v('message') + '
+
+(Please attach the drawings or paste a download link.)';
+  location.href = 'mailto:tf717202165@gmail.com?subject=' + encodeURIComponent('Steel take-off quote request' + (v('company') ? ' - ' + v('company') : '')) + '&body=' + encodeURIComponent(body);
+  return false;
+}
+</script>
 </div></section>
 
 <footer><div class="wrap">
